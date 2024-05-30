@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maestro.ai</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../src/maestro.js"></script>
+    <script>
+      // Define App Component
+      class App extends maestro.Component {
+        constructor(props) {
+          super(props);
+        }
+
+        render() {
+          return maestro.createElement('div', { id: 'app' }, 'Welcome to Maestro.ai');
+        }
+      }
+
+      // Initialize Router and StateManager
+      document.addEventListener('DOMContentLoaded', () => {
+        const router = new maestro.Router();
+        router.registerRoute('/', App);
+
+        router.loadRoute(window.location.hash);
+      });
+    </script>
+  </body>
+</html>

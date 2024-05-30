@@ -1,0 +1,13 @@
+||-----------------------------------------------------------------------------------------------------------------------
+|| PROMPT
+||-----------------------------------------------------------------------------------------------------------------------
+
+You're writing node/typescript application. I need to remind you again. This is a pure client-side
+javascript only framework. This should be able to be imported in a <script src="XXX"> tag, it shouldn't have any sort of
+typescript or node.js requirement. It should not have any server running. It should not use npm/npx. 
+It should be based on web browser based vanilla javascript or routing 
+Let's start again
+
+||-----------------------------------------------------------------------------------------------------------------------
+|| RESPONSE
+||-----------------------------------------------------------------------------------------------------------------------
