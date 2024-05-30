@@ -1,0 +1,175 @@
+||-----------------------------------------------------------------------------------------------------------------------
+|| PROMPT
+||-----------------------------------------------------------------------------------------------------------------------
+
+ok let's create a testbed environment with a docker-compose.yml file to run the unit tests and demo files
+
+||-----------------------------------------------------------------------------------------------------------------------
+|| RESPONSE
+||-----------------------------------------------------------------------------------------------------------------------
+
+
+Let's create a testbed environment using Docker and Docker Compose. This environment will be used to run unit tests and demo files for the maestro.ai framework. We'll set up a simple web server using Nginx to serve the demo files and tests.
+
+### Step 1: Project Directory Structure
+
+1. **Project Directory Structure**
+   ```bash
+   maestro-ai/
+   ├── docker-compose.yml
+   ├── Dockerfile
+   ├── src/
+   │   └── maestro.js
+   ├── public/
+   │   ├── index.html
+   │   ├── demo.html
+   │   └── tests/
+   │       ├── test.html
+   │       └── test.js
+   ```
+
+### Step 2: Create the Dockerfile
+
+1. **Dockerfile**
+   ```Dockerfile
+   # Use the official Nginx image as the base image
+   FROM nginx:alpine
+
+   # Copy the public content to the Nginx html directory
+   COPY public /usr/share/nginx/html
+
+   # Copy the Nginx configuration file
+   COPY nginx.conf /etc/nginx/conf.d/default.conf
+   ```
+
+### Step 3: Create the Docker Compose File
+
+1. **docker-compose.yml**
+   ```yaml
+   version: '3'
+   services:
+     web:
+       build: .
+       ports:
+         - "8080:80"
+       volumes:
+         - ./public:/usr/share/nginx/html
+   ```
+
+### Step 4: Create the Nginx Configuration File
+
+1. **nginx.conf**
+   ```nginx
+   server {
+       listen 80;
+       server_name localhost;
+
+       location / {
+           root /usr/share/nginx/html;
+           index index.html;
+       }
+
+       location /demo {
+           root /usr/share/nginx/html;
+           index demo.html;
+       }
+
+       location /tests {
+           root /usr/share/nginx/html;
+           index test.html;
+       }
+   }
+   ```
+
+### Step 5: Create Demo and Test Files
+
+1. **Demo HTML File**
+   - `public/demo.html`
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+     <head>
+       <meta charset="UTF-8" />
+       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+       <title>Maestro.ai Demo</title>
+     </head>
+     <body>
+       <div id="root"></div>
+       <script src="/src/maestro.js"></script>
+       <script>
+         class DemoApp extends maestro.Component {
+           constructor(props) {
+             super(props);
+           }
+
+           render() {
+             return maestro.createElement('div', { id: 'demo-app' }, 'Maestro.ai Demo');
+           }
+         }
+
+         document.addEventListener('DOMContentLoaded', () => {
+           const app = new DemoApp();
+           app.mount(document.getElementById('root'));
+         });
+       </script>
+     </body>
+   </html>
+   ```
+
+2. **Test HTML File**
+   - `public/tests/test.html`
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+     <head>
+       <meta charset="UTF-8" />
+       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+       <title>Maestro.ai Tests</title>
+     </head>
+     <body>
+       <div id="test-root"></div>
+       <script src="/src/maestro.js"></script>
+       <script src="test.js"></script>
+     </body>
+   </html>
+   ```
+
+3. **Test JavaScript File**
+   - `public/tests/test.js`
+   ```javascript
+   // Basic tests for maestro.ai
+
+   class TestApp extends maestro.Component {
+     constructor(props) {
+       super(props);
+       this.state = { message: 'Hello, World!' };
+     }
+
+     render() {
+       return maestro.createElement('div', { id: 'test-app' }, this.state.message);
+     }
+   }
+
+   document.addEventListener('DOMContentLoaded', () => {
+     const app = new TestApp();
+     app.mount(document.getElementById('test-root'));
+
+     // Basic test
+     const testResult = document.getElementById('test-app').innerText === 'Hello, World!';
+     console.log('Test Result: ', testResult ? 'Pass' : 'Fail');
+   });
+   ```
+
+### Step 6: Running the Docker Compose Environment
+
+1. **Build and Run the Docker Compose Environment**
+   ```bash
+   docker-compose up --build
+   ```
+
+2. **Access the Demo and Tests**
+   - Open your browser and navigate to `http://localhost:8080` to see the main application.
+   - Navigate to `http://localhost:8080/demo` to see the demo page.
+   - Navigate to `http://localhost:8080/tests` to run the tests.
+
+This setup creates a Docker environment to serve the demo and test files for the maestro.ai framework using Nginx. It allows you to test the framework in a browser without any backend dependencies.

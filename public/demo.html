@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maestro.ai Demo</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="/src/maestro.js"></script>
+    <script>
+      class DemoApp extends maestro.Component {
+        constructor(props) {
+          super(props);
+        }
+
+        render() {
+          return maestro.createElement('div', { id: 'demo-app' }, 'Maestro.ai Demo');
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const app = new DemoApp();
+        app.mount(document.getElementById('root'));
+      });
+    </script>
+  </body>
+</html>
